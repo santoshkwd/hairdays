@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+{% load static %}
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <title>hairdays</title>
+  </head>
+  <style type="text/css">
+  .width-scale {
+    max-width: 400px !important;
+    box-shadow: 0px 0px 4px #e4e4e4;
+    border-radius: 26px;
+}
+.priview.img {
+    position: relative;
+    height: auto;
+    margin: 0 auto;
+    width: 200px;
+    height: 200px;
+    margin-top: 60px;
+}
+.file-upload {
+    display: none;
+}
+.priview-area {
+    border-radius: 50%;
+    overflow: hidden;
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    transition: all .3s;
+    background-color: #ffffff;
+    cursor: pointer;
+    border: 5px solid #ffffff;
+}
+img.profile-pic {
+    width: 100%;
+    height: auto;
+}
+.input-area label {
+    background: white;
+    width: 45px;
+    height: 45px;
+    text-align: center;
+    line-height: 37px;
+    border-radius: 100%;
+    border: 2px solid #ffffff;
+    font-size: 20px;
+    color: #fff;
+    background: #00C9C9;
+}
+.input-area {
+    position: absolute;
+    right:10px;
+    bottom: 5px;
+    z-index: 1;
+}
+.content-sec {
+    margin-top: 20px;
+    text-align: center;
+}
+.view-heading {
+    font-size: 20px;
+    font-weight: 700;
+    color: #00c9c9;
+    margin-bottom: 15px;
+}
+.sub-view-heading {
+    font-size: 15px;
+    font-weight: 500;
+    color: #00c9c9;
+    padding: 0px 50px;
+    line-height: 21px;
+}
+.upload-type-area {
+    background: #00c9c9;
+    padding: 10px 0px;
+    margin-top: 40px;
+    text-align: center;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+button.btn.camera-btn {
+    margin-top: -35px;
+    color: #ffff;
+    background: linear-gradient( -228deg
+ , #00c9c9, #4e8dd9);
+    border-radius: 50px;
+    padding: 10px 30px;
+    font-size: 16px;
+}
+.use-camera {
+    margin-bottom: 15px;
+}
+.use-galley {
+    margin-top: 25px;
+}
+span.space-area {
+    position: relative;
+    color: #fff;
+    background: #00c9c9;
+    z-index: 9;
+    padding: 0px 5px;
+}
+span.space-area:before {
+    position: absolute;
+    display: block;
+    background: #fff;
+    width: 200px;
+    height: 2px;
+    content: '';
+    left: 50%;
+    transform: translate(-50%);
+    top: 13px;
+    z-index: -1;
+}
+button.btn.gallery-btn {
+    width: 100%;
+    background: transparent;
+    border-top: 2px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
+    padding: 12px;
+    color: #ffffff;
+    padding: 10px 0px;
+}
+.fa-picture-o{
+    font-size: 25px;
+    position: relative;
+    top: -10px;
+}
+
+button.btn.gallery-btn label{
+    text-align: left;
+    margin-left: 10px;
+}
+.img-footer{
+width: 100%;
+margin: 0 auto;
+padding: 20px;
+}
+.img-footer img{
+    width: 150px;
+}
+#id_image_div
+{
+    display:none;
+}
+  </style>
+  <body>
+    <div class="wrapper">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 mx-auto width-scale">
+          <div class="priview img">
+            <div class="input-area">
+                <form id="hairform" method="POST" enctype="multipart/form-data">
+                    <div id="id_image_div">
+                        {{form}}
+                    </div>
+                    <label for=" ">
+                        <img class="upload-button" src="{% static 'img/top-arrow.png' %}">
+                    </label>
+<!--                    <input class="file-upload" type="file" name="hairfile" accept="image/*"/>-->
+                </form>
+
+            </div>
+           <div class="priview-area">
+           <!-- User Profile Image -->
+                 {% if img_obj %}
+                 <img class="profile-pic" src="{{img_obj}}">
+
+                 {% else %}
+                    <img class="profile-pic" src="{% static 'img/upload-icon.png' %}">
+                 {% endif %}
+             </div>
+        </div>
+        <div class="content-sec">
+          <div class="view-heading">
+              {% if result %}
+                <div class="htype">Hair Type: {{result}}</div>
+              {% else %}
+                <div class="utitle">Upload Your Hairstyle</div>
+              {% endif %}
+
+
+            <div class="predicting" style="display:none;">
+              <i class="fa fa-spin fa-spinner"></i>
+              Processing...
+            </div>
+
+          </div>
+          <div class="sub-view-heading"> Lets Layla, our AI analyze your strands and provide you with custom recommendation</div>
+        </div>
+        <div class="upload-type-area">
+          <div class="use-camera">
+
+            <button type="button" class="btn camera-btn upload-button" form="hairform"><i class="fa fa-camera" aria-hidden="true"></i> Use Camera</button>
+          </div>
+
+
+          <span class="space-area">or</span>
+          <div class="use-galley">
+            <button type="button" class="btn gallery-btn upload-button" form="hairform"><i class="fa fa-picture-o" aria-hidden="true"></i> <label>Select a photo from gallery<br><small>PNG, JPG or JPEG</small></label></button>
+          </div>
+          <div class="img-footer">
+            <img src="{% static 'img/footer-logo.png' %}">
+          </div>
+
+        </div>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+$(document).ready(function() {
+
+
+    var readURL = function(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('.profile-pic').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+
+           setTimeout(function(){
+            $(document).find('#hairform').trigger('submit');
+           },2000);
+        }
+    }
+
+
+    $("#id_image").on('change', function(){
+        $(document).find('.utitle').hide();
+        $(document).find('.htype').hide();
+        $(document).find('.predicting').show();
+        readURL(this);
+    });
+
+    $(".upload-button").on('click', function() {
+       $("#id_image").click();
+    });
+});
+</script>
+  </body>
+</html>
